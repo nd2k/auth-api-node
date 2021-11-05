@@ -9,7 +9,7 @@ const routes = (app: Application) => {
    * GET /healthcheck
    */
   app.get('/healthcheck', (req: Request, res: Response) =>
-    res.sendStatus(200).send('HealthCheck -- OK')
+    res.status(200).send('HealthCheck -- OK')
   );
 
   /**
