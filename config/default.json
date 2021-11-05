@@ -1,0 +1,6 @@
+{
+  "config": {
+    "port": 1000,
+    "dbUri": "mongodb+srv://root:root@cluster0.kq8qn.mongodb.net/auth-api?retryWrites=true&w=majority"
+  }
+}

@@ -1,11 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import log from './utils/logger';
 import connect from './db/mongoConnection';
-import dotenv from 'dotenv';
+import config from 'config';
 
-dotenv.config();
-
-const PORT = process.env.PORT || 2000;
+const PORT = process.env.PORT || config.get<number>('config.port');
 const app: Application = express();
 
 app.use(express.json());

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import log from '../utils/logger';
+import config from 'config';
 
 const connect = async () => {
-  const DBURI = process.env.DBURI || '@mongodbConnect';
+  const DBURI = process.env.DBURI || config.get<string>('config.dbUri');
   try {
     log.info(`Trying to connect to MongoDb on ${DBURI}...`);
     await mongoose.connect(DBURI);
