@@ -36,7 +36,8 @@ export const reIssueAccessToken = async ({
     { ...user, session: session._id },
     {
       expiresIn:
-        process.env.accessTokenExpiresIn || config.get('accessTokenExpiresIn'),
+        process.env.accessTokenExpiresIn ||
+        config.get('config.accessTokenExpiresIn'),
     } // 15 minutes
   );
   return accessToken;

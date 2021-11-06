@@ -1,7 +1,10 @@
 import { Application, Request, Response } from 'express';
 import validateResource from '../middlewares/validateResource';
 import { createUserSchema } from '../schemas/user.schema';
-import { createUserHandler } from '../controllers/user.controller';
+import {
+  createUserHandler,
+  getCurrentUser,
+} from '../controllers/user.controller';
 import { createSessionSchema } from '../schemas/session.schema';
 import {
   createSessionHandler,
@@ -28,6 +31,12 @@ const routes = (app: Application) => {
     validateResource(createUserSchema),
     createUserHandler
   );
+
+  /**
+   * Get current user route
+   * GET /auth-api/v1/user
+   */
+  app.get('/auth-api/v1/user', requireUser, getCurrentUser);
 
   /**
    * Login user route

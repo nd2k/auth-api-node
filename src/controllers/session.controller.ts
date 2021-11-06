@@ -8,6 +8,8 @@ import {
 import { validatePassword } from '../services/user.service';
 import { signJwt } from '../utils/jwt.utils';
 
+const NODE_ENV = process.env.NODE_ENV || config.get<string>('config.nodeEnv');
+
 export const createSessionHandler = async (req: Request, res: Response) => {
   // Validate the user's password
   const user = await validatePassword(req.body);
@@ -21,7 +23,8 @@ export const createSessionHandler = async (req: Request, res: Response) => {
     { ...user, session: session._id },
     {
       expiresIn:
-        process.env.accessTokenExpiresIn || config.get('accessTokenExpiresIn'),
+        process.env.accessTokenExpiresIn ||
+        config.get('config.accessTokenExpiresIn'),
     }
   );
   // create a refresh token
@@ -30,9 +33,45 @@ export const createSessionHandler = async (req: Request, res: Response) => {
     {
       expiresIn:
         process.env.refreshTokenExpiresIn ||
-        config.get('refreshTokenExpiresIn'),
+        config.get('config.refreshTokenExpiresIn'),
     }
   );
+  // return cookies
+  if (NODE_ENV === 'production') {
+    res.cookie('accessToken', accessToken, {
+      maxAge: 900000, //15min
+      httpOnly: true,
+      domain: 'auth-api-node-ts-2021.herokuapp.com',
+      path: '/',
+      sameSite: 'strict',
+      secure: true,
+    });
+    res.cookie('refreshToken', refreshToken, {
+      maxAge: 3.15e10, //1year
+      httpOnly: true,
+      domain: 'auth-api-node-ts-2021.herokuapp.com',
+      path: '/',
+      sameSite: 'strict',
+      secure: true,
+    });
+  } else {
+    res.cookie('accessToken', accessToken, {
+      maxAge: 900000, //15min
+      httpOnly: true,
+      domain: 'localhost',
+      path: '/',
+      sameSite: 'strict',
+      secure: false,
+    });
+    res.cookie('refreshToken', refreshToken, {
+      maxAge: 3.15e10, //1year
+      httpOnly: true,
+      domain: 'localhost',
+      path: '/',
+      sameSite: 'strict',
+      secure: false,
+    });
+  }
   // return access & refresh tokens
   return res.send({ accessToken, refreshToken });
 };

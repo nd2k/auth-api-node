@@ -3,11 +3,15 @@ import log from './utils/logger.utils';
 import connect from './db/mongoConnection';
 import config from 'config';
 import routes from './routes/routes';
+import deserializeUser from './middlewares/deserializeUser';
+import cookieParser from 'cookie-parser';
 
 const PORT = process.env.PORT || config.get<number>('config.port');
 const app: Application = express();
 
+app.use(cookieParser());
 app.use(express.json());
+app.use(deserializeUser);
 
 try {
   app.listen(PORT, async () => {
