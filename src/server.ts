@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import log from './utils/logger';
+import log from './utils/logger.utils';
 import connect from './db/mongoConnection';
 import config from 'config';
 import routes from './routes/routes';

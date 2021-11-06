@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { omit } from 'lodash';
 import { CreateUserInput } from '../schemas/user.schema';
 import { createUser } from '../services/user.service';
-import log from '../utils/logger';
+import log from '../utils/logger.utils';
 
 export const createUserHandler = async (
   req: Request<{}, {}, CreateUserInput['body']>,

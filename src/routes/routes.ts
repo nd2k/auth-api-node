@@ -2,6 +2,13 @@ import { Application, Request, Response } from 'express';
 import validateResource from '../middlewares/validateResource';
 import { createUserSchema } from '../schemas/user.schema';
 import { createUserHandler } from '../controllers/user.controller';
+import { createSessionSchema } from '../schemas/session.schema';
+import {
+  createSessionHandler,
+  deleteSessionHandler,
+  getUserSessionsHandler,
+} from '../controllers/session.controller';
+import requireUser from '../middlewares/requireUser';
 
 const routes = (app: Application) => {
   /**
@@ -26,23 +33,23 @@ const routes = (app: Application) => {
    * Login user route
    * POST /auth-api/v1/sessions
    */
-  // app.post(
-  //   '/auth-api/v1/sessions',
-  //   validateResource(createSessionSchema),
-  //   createSessionHandler
-  // );
+  app.post(
+    '/auth-api/v1/sessions',
+    validateResource(createSessionSchema),
+    createSessionHandler
+  );
 
   /**
    * Get user's sessions route
    * GET /auth-api/v1/sessions
    */
-  // app.get('/auth-api/v1/sessions', requireUser, getUserSessionsHandler);
+  app.get('/auth-api/v1/sessions', requireUser, getUserSessionsHandler);
 
   /**
    * Delete user's sessions route
    * DELETE /auth-api/v1/sessions
    */
-  // app.delete('/auth-api/v1/sessions', requireUser, deleteSessionHandler);
+  app.delete('/auth-api/v1/sessions', requireUser, deleteSessionHandler);
 };
 
 export default routes;
