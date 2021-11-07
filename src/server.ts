@@ -7,7 +7,7 @@ import deserializeUser from './middlewares/deserializeUser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
-const PORT = process.env.port || config.get<number>('config.port');
+const PORT = process.env.PORT || config.get<number>('config.port');
 const app: Application = express();
 
 app.use(
